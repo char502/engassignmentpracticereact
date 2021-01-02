@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
-// import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [text, setText] = useState(0);
+  const [newTodo, setNewTodo] = useState('');
+  const [todos, setTodos] = useState([]);
 
-  const handleChange = e => {
-    console.log(e.target.value);
-    setText(e.target.value);
-  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (newTodo === '') return;
 
-  const handleSubmit = () => {
-    console.log('handleSubmit clicked');
+    setTodos(prevTodos => {
+      return [...prevTodos, { id: uuidv4(), text: newTodo, completed: true }];
+    });
+    setNewTodo('');
   };
 
   return (
     <>
-      <input type='text' onChange={handleChange} />
-      <button onClick={handleSubmit}>Submit</button>
-      <p>{text}</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          value={newTodo}
+          onChange={e => setNewTodo(e.target.value)}
+        />
+      </form>
+      <div>
+        <ul>
+          {todos.map(todos => {
+            return <li key={todos.id}>{todos.text}</li>;
+          })}
+        </ul>
+      </div>
     </>
   );
 }
