@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 // import { v4 as uuidv4 } from 'uuid';
 
 const Container = styled.div`
@@ -32,6 +33,13 @@ const FormRow = styled.div`
   & > label {
     padding: 0.5em 1em 0.5em 1em;
     flex: 1;
+  }
+  & > input,
+  select {
+    flex: 2;
+  }
+  & > input {
+    padding: 0.5em;
   }
 `;
 
@@ -80,6 +88,39 @@ const DonationInputsResult = styled.div`
   margin-bottom: 50px;
   display: flex;
   flex-direction: column;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  table {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border: 2px solid rgb(200, 200, 200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+
+  td,
+  th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px 20px;
+  }
+
+  th {
+    background-color: rgb(235, 235, 235);
+}
+
+  td {
+    text-align: center;
+}
+
+  tr:nth-child(even) td {
+    background-color: rgb(250, 250, 250);
+}
+
+  tr:nth-child(odd) td {
+    background-color: rgb(245, 245, 245);
+}
 `;
 
 function App() {
@@ -148,7 +189,7 @@ function App() {
           <FormRow>
             <Button
               type='submit'
-              onclick='calculateResults()'
+              onClick='calculateResults()'
               id='donation--button'
               name='donation--button'
               style={{ width: '70px' }}
@@ -160,9 +201,10 @@ function App() {
       </form>
 
       <DonationInputsResult style={{ paddingTop: '20px' }}>
-        {/* <label for='donation--resultAsTable'>
+        <label htmlFor='donation--resultAsTable'>
           Results Table (£)
-          <div style='padding-top: 20px;'>
+          <div style={{ paddingTop: '20px' }}>
+            <GlobalStyle />
             <table id='donation-inputs__resultTable'>
               <thead>
                 <th>Amount(£)</th>
@@ -183,17 +225,20 @@ function App() {
             </table>
           </div>
         </label>
-        <div class='donation-inputs__resetButton' style='padding: 20px;'>
-          <button
+        <div
+          className='donation-inputs__resetButton'
+          style={{ padding: '20px' }}
+        >
+          <Button
             type='reset'
-            onclick='resetCalculator()'
+            onClick='resetCalculator()'
             id='reset--button'
             name='reset--button'
-            style='width: 70px;'
+            style={{ width: '70px' }}
           >
             Reset
-          </button>
-        </div> */}
+          </Button>
+        </div>
       </DonationInputsResult>
     </Container>
   );
