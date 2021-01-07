@@ -91,10 +91,16 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [selectInputValue, setselectInputValue] = useState([]);
 
-  const calculateResults = () => {
-    console.log('calculateResults clicked');
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log('handleSubmit clicked');
+    {
+      console.log(inputValue);
+    }
+    {
+      console.log(selectInputValue);
+    }
   };
-  // const [todos, setTodos] = useState([]);
 
   // const handleSubmit = e => {
   //   e.preventDefault();
@@ -112,9 +118,7 @@ function App() {
 
   return (
     <Container>
-      {console.log(inputValue)}
-      {console.log(selectInputValue)}
-      <form name='dataFromForm' id='dataFromForm'>
+      <form name='dataFromForm' id='dataFromForm' onSubmit={handleSubmit}>
         <div className='donation-title'>
           <h2>Charity Donations</h2>
           <h4>Please Enter the amount for donation</h4>
@@ -170,7 +174,7 @@ function App() {
           <FormRow>
             <Button
               type='submit'
-              onClick={calculateResults}
+              /* onClick={calculateResults} */
               id='donation--button'
               name='donation--button'
               style={{ width: '70px' }}
