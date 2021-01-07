@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { createGlobalStyle } from 'styled-components';
+
 import Table from './components/Table';
 
 const Container = styled.div`
@@ -87,36 +87,13 @@ const DonationInputsResult = styled.div`
   padding-top: 20px;
 `;
 
-const GlobalStyle = createGlobalStyle`
-  table {
-  margin: 0 auto;
-  margin-bottom: 20px;
-  border-collapse: collapse;
-  border: 2px solid rgb(200, 200, 200);
-  letter-spacing: 1px;
-  font-size: 0.8rem;
-}
-  td,
-  th {
-    border: 1px solid rgb(190, 190, 190);
-    padding: 10px 20px;
-  }
-  th {
-    background-color: rgb(235, 235, 235);
-}
-  td {
-    text-align: center;
-}
-  tr:nth-child(even) td {
-    background-color: rgb(250, 250, 250);
-}
-  tr:nth-child(odd) td {
-    background-color: rgb(245, 245, 245);
-}
-`;
-
 function App() {
-  // const [newTodo, setNewTodo] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [selectInputValue, setselectInputValue] = useState([]);
+
+  const calculateResults = () => {
+    console.log('calculateResults clicked');
+  };
   // const [todos, setTodos] = useState([]);
 
   // const handleSubmit = e => {
@@ -129,8 +106,14 @@ function App() {
   //   setNewTodo('');
   // };
 
+  const resetCalculator = () => {
+    console.log('resetCalculator clicked');
+  };
+
   return (
     <Container>
+      {console.log(inputValue)}
+      {console.log(selectInputValue)}
       <form name='dataFromForm' id='dataFromForm'>
         <div className='donation-title'>
           <h2>Charity Donations</h2>
@@ -142,11 +125,13 @@ function App() {
               Amount to Donate (£):
               <input
                 type='number'
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
                 id='donation--amount'
                 name='donation--amount'
                 style={{ width: '100px' }}
-                onKeyPress='return isNumberKey(event)'
-                onInput='javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);'
+                /* onKeyPress='return isNumberKey(event)' */
+                /* onInput='javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' */
                 min='1'
                 maxLength='8'
               />
@@ -156,7 +141,11 @@ function App() {
           <FormRow>
             <label htmlFor='donation--type'>
               Please Select a donation type:
-              <select name='donation--type' id='donation--type'>
+              <select
+                name='donation--type'
+                id='donation--type'
+                onChange={e => setselectInputValue([e.target.value])}
+              >
                 <option hidden>Choose Donation type</option>
                 <option value='equal'>Equal</option>
                 <option value='more-odd'>More on Odd Days</option>
@@ -181,7 +170,7 @@ function App() {
           <FormRow>
             <Button
               type='submit'
-              onClick='calculateResults()'
+              onClick={calculateResults}
               id='donation--button'
               name='donation--button'
               style={{ width: '70px' }}
@@ -193,8 +182,22 @@ function App() {
       </form>
 
       <DonationInputsResult>
-        <GlobalStyle />
         <Table />
+
+        <div
+          className='donation-inputs__resetButton'
+          style={{ padding: '20px' }}
+        >
+          <Button
+            type='reset'
+            onClick={resetCalculator}
+            id='reset--button'
+            name='reset--button'
+            style={{ width: '70px' }}
+          >
+            Reset
+          </Button>
+        </div>
       </DonationInputsResult>
     </Container>
   );
