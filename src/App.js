@@ -90,27 +90,96 @@ const DonationInputsResult = styled.div`
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [selectInputValue, setselectInputValue] = useState([]);
+  const [arrData, setArrData] = useState([]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit clicked');
-    {
-      console.log(inputValue);
-    }
-    {
-      console.log(selectInputValue);
+
+    let newArr = [];
+
+    // console.log('handleSubmit clicked');
+    // console.log(inputValue, selectInputValue[0]);
+
+    if (selectInputValue[0] === 'equal') {
+      console.log('You selected equal');
+      for (let i = 0; i < 10; i++) {
+        let num = parseFloat(
+          (inputValue / 10).toString().match(/\d+(?:\.\d{0,2})?/)
+        );
+        newArr.push(num);
+      }
+
+      let total = newArr.reduce((a, b) => a + b);
+      let rounded = Math.round(total * 10) / 10;
+      let difference = parseFloat((inputValue - rounded).toFixed(2));
+
+      let lastElem = newArr[newArr.length - 1];
+      let lastElemPlusRemainder = parseFloat(
+        (lastElem + difference).toFixed(2)
+      );
+      newArr.splice(newArr.length - 1, 1, lastElemPlusRemainder);
+
+      displayResults(newArr);
+    } else if (selectInputValue[0] === 'more-odd') {
+      console.log('You selected more-odd');
+      Button.disabled = false;
+
+      for (let i = 0; i < 15; i++) {
+        let num = parseFloat(
+          (inputValue / 15).toString().match(/\d+(?:\.\d{0,2})?/)
+        );
+        // console.log(num)
+        newArr.push(num);
+      }
+
+      newArr.splice(10);
+
+      for (let i = 0; i < 10; i += 2) {
+        let double = newArr[i] * 2;
+        newArr.splice(i, 1, double);
+      }
+
+      let total = newArr.reduce((a, b) => a + b);
+      let rounded = Math.round(total * 10) / 10;
+      let difference = parseFloat((inputValue - rounded).toFixed(2));
+
+      let lastElem = newArr[newArr.length - 1];
+      let lastElemPlusRemainder = parseFloat(
+        (lastElem + difference).toFixed(2)
+      );
+      newArr.splice(newArr.length - 1, 1, lastElemPlusRemainder);
+
+      displayResults(newArr);
     }
   };
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   if (newTodo === '') return;
+  const displayResults = newArr => {
+    console.log(newArr);
+    console.log('displayResults clicked');
+    // amountValue = document.getElementById('donation--amount').value;
+    // selectedSplitType = document.getElementById('donation--type').value;
 
-  //   setTodos(prevTodos => {
-  //     return [...prevTodos, { id: uuidv4(), text: newTodo, completed: true }];
-  //   });
-  //   setNewTodo('');
-  // };
+    // let tableRows = document.getElementById('dataGoesHere');
+    // let row = tableRows.insertRow(0);
+
+    // let cell1 = row.insertCell(0);
+    // let cell2 = row.insertCell(1);
+
+    // cell1.innerHTML = `${amountValue}`;
+    // cell2.innerHTML = `${selectedSplitType}`;
+
+    // for (let i = 0; i < newArr.length; i++) {
+    //   let counter = 3;
+    //   let cell = `cell${counter + i}`;
+    //   cell = row.insertCell(`${counter - 1 + i}`);
+    //   cell.innerHTML = `${newArr[i]}`;
+    // }
+
+    // //Reset the inputs
+    // newArr = [];
+    // amountValue.value = 0;
+    // selectedSplitType.value = '';
+  };
 
   const resetCalculator = () => {
     console.log('resetCalculator clicked');
