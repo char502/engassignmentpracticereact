@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import Table from './components/Table';
 
@@ -90,15 +90,44 @@ const DonationInputsResult = styled.div`
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [selectInputValue, setselectInputValue] = useState([]);
+
+  // For table data
+  const [inputForTable, setInputForTable] = useState('');
+  const [selectInputForTable, setSelectInputForTable] = useState([]);
   const [arrData, setArrData] = useState([]);
+
+  // const isNumberKey = e => {
+  //   let charCode = e.which ? e.which : e.keyCode;
+
+  //   if (
+  //     charCode > 31 &&
+  //     (charCode < 48 || charCode > 57) &&
+  //     !(charCode === 46 || charCode === 8)
+  //   )
+  //     return false;
+  //   else {
+  //     let len = inputValue.value.length;
+  //     let index = inputValue.value.indexOf('.');
+  //     if (index > 0 && charCode === 46) {
+  //       return false;
+  //     }
+  //     if (index > 0) {
+  //       let CharAfterdot = len + 1 - index;
+  //       if (CharAfterdot > 3) {
+  //         return false;
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    let newArr = [];
+    // put all this js code in another component?
+    //calculationDonation(inputValue, selectInputValue);
 
-    // console.log('handleSubmit clicked');
-    // console.log(inputValue, selectInputValue[0]);
+    let newArr = [];
 
     if (selectInputValue[0] === 'equal') {
       console.log('You selected equal');
@@ -119,7 +148,11 @@ function App() {
       );
       newArr.splice(newArr.length - 1, 1, lastElemPlusRemainder);
 
-      displayResults(newArr);
+      // setArrData(newArr);
+
+      setInputForTable(inputValue);
+      setSelectInputForTable(selectInputValue);
+      setArrData(newArr);
     } else if (selectInputValue[0] === 'more-odd') {
       console.log('You selected more-odd');
       Button.disabled = false;
@@ -149,40 +182,27 @@ function App() {
       );
       newArr.splice(newArr.length - 1, 1, lastElemPlusRemainder);
 
-      displayResults(newArr);
+      setInputForTable(inputValue);
+      setSelectInputForTable(selectInputValue);
+      setArrData(newArr);
     }
   };
 
-  const displayResults = newArr => {
-    console.log(newArr);
-    console.log('displayResults clicked');
-    // amountValue = document.getElementById('donation--amount').value;
-    // selectedSplitType = document.getElementById('donation--type').value;
-
-    // let tableRows = document.getElementById('dataGoesHere');
-    // let row = tableRows.insertRow(0);
-
-    // let cell1 = row.insertCell(0);
-    // let cell2 = row.insertCell(1);
-
-    // cell1.innerHTML = `${amountValue}`;
-    // cell2.innerHTML = `${selectedSplitType}`;
-
-    // for (let i = 0; i < newArr.length; i++) {
-    //   let counter = 3;
-    //   let cell = `cell${counter + i}`;
-    //   cell = row.insertCell(`${counter - 1 + i}`);
-    //   cell.innerHTML = `${newArr[i]}`;
-    // }
-
-    // //Reset the inputs
-    // newArr = [];
-    // amountValue.value = 0;
-    // selectedSplitType.value = '';
-  };
+  // const displayResults = newArr => {
+  //   console.log(newArr);
+  //   console.log('displayResults clicked');
+  // };
 
   const resetCalculator = () => {
     console.log('resetCalculator clicked');
+
+    setInputValue('');
+    setselectInputValue([]);
+
+    // For table data
+    setInputForTable('');
+    setSelectInputForTable([]);
+    setArrData([]);
   };
 
   return (
@@ -203,7 +223,7 @@ function App() {
                 id='donation--amount'
                 name='donation--amount'
                 style={{ width: '100px' }}
-                /* onKeyPress='return isNumberKey(event)' */
+                /* onKeyPress={isNumberKey} */
                 /* onInput='javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' */
                 min='1'
                 maxLength='8'
@@ -255,8 +275,11 @@ function App() {
       </form>
 
       <DonationInputsResult>
-        <Table />
-
+        <Table
+          inputForTable={inputForTable}
+          selectInputForTable={selectInputForTable}
+          arrData={arrData}
+        />
         <div
           className='donation-inputs__resetButton'
           style={{ padding: '20px' }}

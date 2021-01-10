@@ -30,17 +30,7 @@ const GlobalStyle = createGlobalStyle`
 }
 `;
 
-const Button = styled.button`
-  margin: 0 auto;
-  height: 25px;
-  width: 100px;
-  background-color: lightsteelblue;
-  border: none;
-  cursor: pointer;
-  border-radius: 3px;
-`;
-
-const Table = () => {
+const Table = ({ inputForTable, selectInputForTable, arrData }) => {
   return (
     <>
       <GlobalStyle />
@@ -65,7 +55,17 @@ const Table = () => {
               </tr>
             </thead>
 
-            <tbody id='dataGoesHere'></tbody>
+            <tbody id='dataGoesHere'>
+              {inputForTable && selectInputForTable ? (
+                <tr>
+                  <td>{inputForTable}</td>
+                  <td>{selectInputForTable}</td>
+                  {arrData.map((tableValue, index) => {
+                    return <td key={index}>{tableValue}</td>;
+                  })}
+                </tr>
+              ) : null}
+            </tbody>
           </table>
         </div>
       </label>
