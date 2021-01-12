@@ -39,6 +39,10 @@ const FormRow = styled.div`
   }
 `;
 
+const Input = styled.input`
+  width: 100px;
+`;
+
 const DonationGuide = styled.div`
   text-align: center;
   background-color: lightsteelblue;
@@ -208,14 +212,12 @@ function App() {
           <FormRow>
             <label htmlFor='donation--amount'>
               Amount to Donate (£):
-              <input
+              <Input
                 type='number'
                 value={inputValue}
-                /* onChange={e => setInputValue(e.target.value)} */
                 onChange={handleChange}
                 id='donation--amount'
                 name='donation--amount'
-                style={{ width: '100px' }}
                 step='0.01'
                 min='0'
                 max='99999999'
@@ -230,6 +232,7 @@ function App() {
                 name='donation--type'
                 id='donation--type'
                 onChange={e => setselectInputValue([e.target.value])}
+                value={selectInputValue}
               >
                 <option hidden>Choose Donation type</option>
                 <option value='equal'>Equal</option>
@@ -255,7 +258,6 @@ function App() {
           <FormRow>
             <Button
               type='submit'
-              /* onClick={calculateResults} */
               id='donation--button'
               name='donation--button'
               style={{ width: '70px' }}
@@ -292,58 +294,3 @@ function App() {
 }
 
 export default App;
-
-/* // import React, { useState, useRef, useEffect } from 'react';
-// import TodoList from './TodoList';
-// import { v4 as uuidv4 } from 'uuid';
-
-// const LOCAL_STORAGE_KEY = 'todoApp.todos';
-
-// function App() {
-//   const [todos, setTodos] = useState([]);
-//   const todoNameRef = useRef();
-//   // useRef - allows to reference elements inside the html
-
-//   useEffect(() => {
-//     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-//     if (storedTodos) setTodos(storedTodos);
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-//   }, [todos]);
-
-//   const toggleTodo = id => {
-//     const newTodos = [...todos];
-//     const todo = newTodos.find(todo => todo.id === id);
-//     todo.complete = !todo.complete;
-//     setTodos(newTodos);
-//   };
-
-//   const handleAddTodo = e => {
-//     const name = todoNameRef.current.value;
-//     // current = any element currently referencing
-//     if (name === '') return; // prevents adding an empty todo
-//     setTodos(prevTodos => {
-//       return [...prevTodos, { id: uuidv4(), name: name, complete: false }];
-//     });
-//     todoNameRef.current.value = null;
-//   };
-
-//   const handleClearTodos = () => {
-//     const newTodos = todos.filter(todo => !todo.complete);
-//     setTodos(newTodos);
-//   };
-
-//   return (
-//     <>
-//       <TodoList todos={todos} toggleTodo={toggleTodo} />
-//       <input type='text' ref={todoNameRef} />
-//       <button onClick={handleAddTodo}>Add Todo</button>
-//       <button onClick={handleClearTodos}>Clear Complete</button>
-//       <div>{todos.filter(todo => !todo.complete).length} left to do</div>
-//     </>
-//   );
-// }
-
-// export default App; */
