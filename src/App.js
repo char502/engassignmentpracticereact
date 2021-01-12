@@ -96,30 +96,22 @@ function App() {
   const [selectInputForTable, setSelectInputForTable] = useState([]);
   const [arrData, setArrData] = useState([]);
 
-  // const isNumberKey = e => {
-  //   let charCode = e.which ? e.which : e.keyCode;
+  const handleChange = e => {
+    let { value, min, max } = e.target;
 
-  //   if (
-  //     charCode > 31 &&
-  //     (charCode < 48 || charCode > 57) &&
-  //     !(charCode === 46 || charCode === 8)
-  //   )
-  //     return false;
-  //   else {
-  //     let len = inputValue.value.length;
-  //     let index = inputValue.value.indexOf('.');
-  //     if (index > 0 && charCode === 46) {
-  //       return false;
-  //     }
-  //     if (index > 0) {
-  //       let CharAfterdot = len + 1 - index;
-  //       if (CharAfterdot > 3) {
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   return true;
-  // };
+    let minMaxValue = Math.max(
+      Number(min),
+      Math.min(Number(max), Number(value))
+    );
+
+    value = minMaxValue
+      .toString()
+      .split('.')
+      .map((el, i) => (i ? el.split('').slice(0, 2).join('') : el))
+      .join('.');
+
+    setInputValue(value);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -219,14 +211,14 @@ function App() {
               <input
                 type='number'
                 value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
+                /* onChange={e => setInputValue(e.target.value)} */
+                onChange={handleChange}
                 id='donation--amount'
                 name='donation--amount'
                 style={{ width: '100px' }}
-                /* onKeyPress={isNumberKey} */
-                /* onInput='javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' */
-                min='1'
-                maxLength='8'
+                step='0.01'
+                min='0'
+                max='99999999'
               />
             </label>
           </FormRow>
